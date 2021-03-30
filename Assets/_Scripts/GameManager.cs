@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,8 +10,10 @@ public class GameManager : MonoBehaviour
 
 	public event Action onPointScored;
 
-	[SerializeField]
 	private List<Gold> golds = new List<Gold>();
+
+	[SerializeField]
+	private GameObject goldHolder;
 
 	private void Awake()
 	{
@@ -19,6 +22,8 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		golds = goldHolder.GetComponentsInChildren<Gold>().ToList();
+
 		foreach (var gold in golds)
 		{
 			gold.onGoldCollected += ScorePoint;
