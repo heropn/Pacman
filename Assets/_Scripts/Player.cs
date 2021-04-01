@@ -8,14 +8,12 @@ public class Player : MonoBehaviour
 	private Transform facingTransform;
 
 	[SerializeField]
-	private List<Sprite> sprites;
+	private float speed = 2.0f;
 
 	private Animator animator;
 	//Side parameter 0 - right, 1 - down, 2 - left, 3 - up
 
 	private Rigidbody2D rigidBody;
-
-	private float speed = 3.0f;
 
 	private void Start()
 	{

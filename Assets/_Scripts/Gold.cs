@@ -11,7 +11,7 @@ public class Gold : MonoBehaviour
 	{
 		if (collision.GetComponent<Player>() != null)
 		{
-			onGoldCollected.Invoke(this);
+			onGoldCollected?.Invoke(this);
 		}
 	}
 }
