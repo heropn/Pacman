@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
 	private void Start()
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
-		boxCollider.GetComponent<BoxCollider2D>();
+		boxCollider = GetComponent<BoxCollider2D>();
 		currentDirection = new Vector2(-1, 0);
 		rigidBody.freezeRotation = true;
 	}
@@ -38,11 +38,11 @@ public class Enemy : MonoBehaviour
 
 			if (currentDirection.x == 0)
 			{
-				boxCollider.size = new Vector2(0.05f, 1);
+				boxCollider.size = new Vector2(1, 0.05f);
 			}
 			else
 			{
-				boxCollider.size = new Vector2(1, 0.05f);
+				boxCollider.size = new Vector2(0.05f, 1);
 			}
 		}
 	}
