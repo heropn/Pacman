@@ -51,6 +51,10 @@ public class Player : MonoBehaviour
 	{
 		Move();
 	}
+	public void TeleportToLocation(Vector2 location)
+	{
+		transform.position = location;
+	}
 
 	private void Move()
 	{

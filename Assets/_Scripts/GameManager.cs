@@ -19,11 +19,19 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private GameObject enemyHolder;
 
+	[SerializeField]
+	private GameObject portalsHolder;
+
+	[SerializeField]
+	private Player player;
+
 	private List<Gold> golds = new List<Gold>();
 
 	private List<PowerUP> powerUps;
 
 	private List<Enemy> enemies;
+
+	private List<Portal> portals;
 
 	private void Awake()
 	{
@@ -35,6 +43,7 @@ public class GameManager : MonoBehaviour
 		golds = goldHolder.GetComponentsInChildren<Gold>().ToList();
 		powerUps = powerUpsHolder.GetComponentsInChildren<PowerUP>().ToList();
 		enemies = enemyHolder.GetComponentsInChildren<Enemy>().ToList();
+		portals = portalsHolder.GetComponentsInChildren<Portal>().ToList();
 
 		foreach (var gold in golds)
 		{
@@ -45,6 +54,17 @@ public class GameManager : MonoBehaviour
 		{
 			powerUp.onPowerUpPicked += TakePowerUP;
 		}
+
+		foreach (var portal in portals)
+		{
+			portal.onPortalEnter += TeleportPlayer;
+		}
+	}
+
+	private void TeleportPlayer(Portal destinationPortal)
+	{
+		StartCoroutine(destinationPortal.DisableCollider(1.0f));
+		player.TeleportToLocation(destinationPortal.transform.position);
 	}
 
 	private void TakePowerUP(PowerUP powerUp)
@@ -62,5 +82,13 @@ public class GameManager : MonoBehaviour
 		golds.Remove(gold);
 		Destroy(gold.gameObject);
 		onPointScored?.Invoke();
+	}
+
+	private void OnDestroy()
+	{
+		foreach (var portal in portals)
+		{
+			portal.onPortalEnter -= TeleportPlayer;
+		}
 	}
 }

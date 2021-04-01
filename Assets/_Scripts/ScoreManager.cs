@@ -27,4 +27,9 @@ public class ScoreManager : MonoBehaviour
 	{
 		textMeshPro.text = scoreString + (++score).ToString();
 	}
+
+	private void OnDestroy()
+	{
+		gameManager.onPointScored -= ScorePoint;
+	}
 }
