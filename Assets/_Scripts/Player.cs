@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+	public event Action<Enemy> onPlayerCollidedWithEnemy;
+
 	[SerializeField]
 	private Transform facingTransform;
 
@@ -51,9 +54,20 @@ public class Player : MonoBehaviour
 	{
 		Move();
 	}
+
 	public void TeleportToLocation(Vector2 location)
 	{
 		transform.position = location;
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		var enemy = collision.GetComponent<Enemy>();
+
+		if (enemy != null)
+		{
+			onPlayerCollidedWithEnemy?.Invoke(enemy);
+		}
 	}
 
 	private void Move()

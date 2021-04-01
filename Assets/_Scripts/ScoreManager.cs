@@ -16,20 +16,21 @@ public class ScoreManager : MonoBehaviour
 	private void Start()
 	{
 		gameManager = GameManager.Instance;
-		gameManager.onPointScored += ScorePoint;
+		gameManager.onPointScored += ScorePoints;
 		textMeshPro = GetComponent<TextMeshProUGUI>();
 		score = 0;
 
 		textMeshPro.text = scoreString + score.ToString();
 	}
 
-	private void ScorePoint()
+	private void ScorePoints(int points)
 	{
-		textMeshPro.text = scoreString + (++score).ToString();
+		score += points;
+		textMeshPro.text = scoreString + (score).ToString();
 	}
 
 	private void OnDestroy()
 	{
-		gameManager.onPointScored -= ScorePoint;
+		gameManager.onPointScored -= ScorePoints;
 	}
 }

@@ -8,8 +8,26 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 
-	public event Action onPointScored;
+	public event Action<int> onPointScored;
+	public event Action onGameLost;
 
+	[SerializeField]
+	private float enemiesVulnarableTime = 5.0f;
+
+	[SerializeField]
+	private int pointsFromGold = 10;
+
+	[SerializeField]
+	private int pointsFromEnemy = 100;
+
+	[SerializeField]
+	private int pointsFromPowerUP = 50;
+
+	[Space(10)]
+	[SerializeField]
+	private Player player;
+
+	[Space(10)]
 	[SerializeField]
 	private GameObject goldHolder;
 
@@ -21,9 +39,6 @@ public class GameManager : MonoBehaviour
 
 	[SerializeField]
 	private GameObject portalsHolder;
-
-	[SerializeField]
-	private Player player;
 
 	private List<Gold> golds = new List<Gold>();
 
@@ -59,6 +74,23 @@ public class GameManager : MonoBehaviour
 		{
 			portal.onPortalEnter += TeleportPlayer;
 		}
+
+		player.onPlayerCollidedWithEnemy += EnemyEnter;
+	}
+
+	private void EnemyEnter(Enemy enemy)
+	{
+		if (enemy.currentState == Enemy.State.Normal)
+		{
+			Debug.Log("GAME LOST");
+			onGameLost?.Invoke();
+		}
+		else
+		{
+			enemies.Remove(enemy);
+			onPointScored?.Invoke(pointsFromEnemy); //Score some more points;
+			enemy.Destroy();
+		}
 	}
 
 	private void TeleportPlayer(Portal destinationPortal)
@@ -73,7 +105,24 @@ public class GameManager : MonoBehaviour
 		powerUps.Remove(powerUp);
 		Destroy(powerUp.gameObject);
 
-		//Make enemies vulurable for some time
+		onPointScored?.Invoke(pointsFromPowerUP);
+
+		StartCoroutine(MakeEnemiesVulnarable());
+	}
+
+	private IEnumerator MakeEnemiesVulnarable()
+	{
+		foreach (var enemy in enemies)
+		{
+			enemy.ChangeState(Enemy.State.Vulnarable);
+		}
+
+		yield return new WaitForSeconds(enemiesVulnarableTime);
+
+		foreach (var enemy in enemies)
+		{
+			enemy.ChangeState(Enemy.State.Normal);
+		}
 	}
 
 	private void ScorePoint(Gold gold)
@@ -81,7 +130,7 @@ public class GameManager : MonoBehaviour
 		gold.onGoldCollected -= ScorePoint;
 		golds.Remove(gold);
 		Destroy(gold.gameObject);
-		onPointScored?.Invoke();
+		onPointScored?.Invoke(pointsFromGold);
 	}
 
 	private void OnDestroy()
@@ -90,5 +139,17 @@ public class GameManager : MonoBehaviour
 		{
 			portal.onPortalEnter -= TeleportPlayer;
 		}
+
+		foreach (var gold in golds)
+		{
+			gold.onGoldCollected -= ScorePoint;
+		}
+
+		foreach (var powerUp in powerUps)
+		{
+			powerUp.onPowerUpPicked -= TakePowerUP;
+		}
+
+		player.onPlayerCollidedWithEnemy -= EnemyEnter;
 	}
 }
