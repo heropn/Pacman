@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		player.enabled = false;
+		player.GetComponent<Animator>().enabled = false;
 		golds = goldHolder.GetComponentsInChildren<Gold>().ToList();
 		powerUps = powerUpsHolder.GetComponentsInChildren<PowerUP>().ToList();
 		portals = portalsHolder.GetComponentsInChildren<Portal>().ToList();
@@ -86,11 +88,14 @@ public class GameManager : MonoBehaviour
 
 		player.onPlayerCollidedWithEnemy += EnemyEnter;
 
-		StartGame();
+		StartCoroutine(StartGame());
 	}
 
-	private void StartGame()
+	private IEnumerator StartGame()
 	{
+		yield return new WaitForSeconds(1.0f);
+		player.GetComponent<Animator>().enabled = true;
+		player.enabled = true;
 		StartCoroutine(SpawnEnemies());
 	}
 
