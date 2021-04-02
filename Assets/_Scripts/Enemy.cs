@@ -69,11 +69,11 @@ public class Enemy : MonoBehaviour
 
 			if (currentDirection.x == 0)
 			{
-				boxCollider.size = new Vector2(1, 0.05f);
+				boxCollider.size = new Vector2(0.5f, 0.05f);
 			}
 			else
 			{
-				boxCollider.size = new Vector2(0.05f, 1);
+				boxCollider.size = new Vector2(0.05f, 0.5f);
 			}
 		}
 	}

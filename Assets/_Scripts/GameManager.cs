@@ -15,6 +15,12 @@ public class GameManager : MonoBehaviour
 	private float enemiesVulnarableTime = 5.0f;
 
 	[SerializeField]
+	private float timeBetweenSpawningEnemies = 5.0f;
+
+	[SerializeField]
+	private int howManyEnemies = 3;
+
+	[SerializeField]
 	private int pointsFromGold = 10;
 
 	[SerializeField]
@@ -35,16 +41,20 @@ public class GameManager : MonoBehaviour
 	private GameObject powerUpsHolder;
 
 	[SerializeField]
-	private GameObject enemyHolder;
+	private GameObject portalsHolder;
+
+	[Space(10)]
+	[SerializeField]
+	private Transform enemyHolderTransform;
 
 	[SerializeField]
-	private GameObject portalsHolder;
+	private List<GameObject> enemiesPrefabs = new List<GameObject>();
 
 	private List<Gold> golds = new List<Gold>();
 
 	private List<PowerUP> powerUps;
 
-	private List<Enemy> enemies;
+	private List<Enemy> currentEnemies = new List<Enemy>();
 
 	private List<Portal> portals;
 
@@ -57,7 +67,6 @@ public class GameManager : MonoBehaviour
 	{
 		golds = goldHolder.GetComponentsInChildren<Gold>().ToList();
 		powerUps = powerUpsHolder.GetComponentsInChildren<PowerUP>().ToList();
-		enemies = enemyHolder.GetComponentsInChildren<Enemy>().ToList();
 		portals = portalsHolder.GetComponentsInChildren<Portal>().ToList();
 
 		foreach (var gold in golds)
@@ -76,6 +85,29 @@ public class GameManager : MonoBehaviour
 		}
 
 		player.onPlayerCollidedWithEnemy += EnemyEnter;
+
+		StartGame();
+	}
+
+	private void StartGame()
+	{
+		StartCoroutine(SpawnEnemies());
+	}
+
+	private void SpawnEnemy()
+	{
+		int index = UnityEngine.Random.Range(0, enemiesPrefabs.Count);
+		var enemy = Instantiate(enemiesPrefabs[index], enemyHolderTransform);
+		currentEnemies.Add(enemy.GetComponent<Enemy>());
+	}
+
+	private IEnumerator SpawnEnemies()
+	{
+		for (int i = 0; i < howManyEnemies; i++)
+		{
+			SpawnEnemy();
+			yield return new WaitForSeconds(timeBetweenSpawningEnemies);
+		}
 	}
 
 	private void EnemyEnter(Enemy enemy)
@@ -87,10 +119,16 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-			enemies.Remove(enemy);
-			onPointScored?.Invoke(pointsFromEnemy); //Score some more points;
+			currentEnemies.Remove(enemy);
+			onPointScored?.Invoke(pointsFromEnemy);
 			enemy.Destroy();
+			SpawnEnemy();
 		}
+	}
+
+	private void WinGame()
+	{
+		Debug.Log("GAME WON");
 	}
 
 	private void TeleportPlayer(Portal destinationPortal)
@@ -112,14 +150,14 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator MakeEnemiesVulnarable()
 	{
-		foreach (var enemy in enemies)
+		foreach (var enemy in currentEnemies)
 		{
 			enemy.ChangeState(Enemy.State.Vulnarable);
 		}
 
 		yield return new WaitForSeconds(enemiesVulnarableTime);
 
-		foreach (var enemy in enemies)
+		foreach (var enemy in currentEnemies)
 		{
 			enemy.ChangeState(Enemy.State.Normal);
 		}
@@ -131,6 +169,11 @@ public class GameManager : MonoBehaviour
 		golds.Remove(gold);
 		Destroy(gold.gameObject);
 		onPointScored?.Invoke(pointsFromGold);
+
+		if (golds.Count == 0)
+		{
+			WinGame();
+		}
 	}
 
 	private void OnDestroy()
