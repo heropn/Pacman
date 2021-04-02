@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7893831465823743249}
   - component: {fileID: 7893831465823743252}
   - component: {fileID: 7893831465823743253}
-  - component: {fileID: 313834285}
+  - component: {fileID: 450011629669498191}
   m_Layer: 0
   m_Name: Enemy_Tomato
   m_TagString: Untagged
@@ -148,7 +148,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.05, y: 0.5}
   m_EdgeRadius: 0
---- !u!95 &313834285
+--- !u!95 &450011629669498191
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -158,7 +158,7 @@ Animator:
   m_GameObject: {fileID: 7893831465823743248}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5f4c028585f24b346ad836bd1607dbcb, type: 2}
+  m_Controller: {fileID: 9100000, guid: eb151d5b4d0113149b73d0c75cf635e0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

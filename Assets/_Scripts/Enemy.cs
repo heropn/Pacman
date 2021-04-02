@@ -19,11 +19,13 @@ public class Enemy : MonoBehaviour
 
 	private BoxCollider2D boxCollider;
 
+	private Animator animator;
+
 	public State currentState { get; private set; }
 
 	public enum State
 	{
-		Vulnarable,
+		Vulnerable,
 		Normal
 	}
 
@@ -31,6 +33,7 @@ public class Enemy : MonoBehaviour
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
 		boxCollider = GetComponent<BoxCollider2D>();
+		animator = GetComponent<Animator>();
 		currentDirection = new Vector2(-1, 0);
 		rigidBody.freezeRotation = true;
 		currentState = State.Normal;
@@ -46,15 +49,15 @@ public class Enemy : MonoBehaviour
 	{
 		currentState = state;
 
-		if (currentState == State.Vulnarable)
+		if (currentState == State.Vulnerable)
 		{
 			speed = speedWhenVulnarable;
-			GetComponent<SpriteRenderer>().color = Color.blue;
+			animator.SetBool("isVulnerable", true);
 		}
 		else
 		{
 			speed = normalSpeed;
-			GetComponent<SpriteRenderer>().color = Color.white;
+			animator.SetBool("isVulnerable", false);
 		}
 	}
 

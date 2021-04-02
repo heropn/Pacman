@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
 	{
 		foreach (var enemy in currentEnemies)
 		{
-			enemy.ChangeState(Enemy.State.Vulnarable);
+			enemy.ChangeState(Enemy.State.Vulnerable);
 		}
 
 		yield return new WaitForSeconds(enemiesVulnarableTime);
