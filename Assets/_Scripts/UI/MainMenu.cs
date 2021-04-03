@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-	public event Action onOptionsButtonClicked;
-	public event Action onHighScoresButtonClicked;
+	public event Action OnOptionsButtonClicked;
+	public event Action OnHighScoresButtonClicked;
 
 	[SerializeField]
 	private Button playButton;
@@ -32,12 +32,12 @@ public class MainMenu : MonoBehaviour
 
 	private void ShowOptionsMenu()
 	{
-		onOptionsButtonClicked?.Invoke();
+		OnOptionsButtonClicked?.Invoke();
 	}
 
 	private void ShowHighScoreMenu()
 	{
-		onHighScoresButtonClicked?.Invoke();
+		OnHighScoresButtonClicked?.Invoke();
 	}
 
 	private void PlayGame()

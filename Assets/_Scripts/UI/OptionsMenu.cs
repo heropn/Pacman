@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
 {
-	public event Action<GameObject> onBackButtonClicked;
+	public event Action<GameObject> OnBackButtonClicked;
 
 	[SerializeField]
 	private Slider slider;
@@ -21,6 +21,6 @@ public class OptionsMenu : MonoBehaviour
 
 	private void BackToMainMenu()
 	{
-		onBackButtonClicked?.Invoke(gameObject);
+		OnBackButtonClicked?.Invoke(gameObject);
 	}
 }

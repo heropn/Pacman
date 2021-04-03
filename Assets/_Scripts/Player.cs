@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-	public event Action<Enemy> onPlayerCollidedWithEnemy;
+	public event Action<Enemy> OnPlayerCollidedWithEnemy;
 
 	[SerializeField]
 	private Transform facingTransform;
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
 
 		if (enemy != null)
 		{
-			onPlayerCollidedWithEnemy?.Invoke(enemy);
+			OnPlayerCollidedWithEnemy?.Invoke(enemy);
 		}
 	}
 

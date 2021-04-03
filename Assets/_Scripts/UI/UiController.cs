@@ -16,10 +16,10 @@ public class UiController : MonoBehaviour
 
 	private void Start()
 	{
-		mainMenu.onHighScoresButtonClicked += ShowHighScoreMenu;
-		mainMenu.onOptionsButtonClicked += ShowOptionsMenu;
-		optionsMenu.onBackButtonClicked += ShowMainMenu;
-		highScoresMenu.onBackButtonClicked += ShowMainMenu;
+		mainMenu.OnHighScoresButtonClicked += ShowHighScoreMenu;
+		mainMenu.OnOptionsButtonClicked += ShowOptionsMenu;
+		optionsMenu.OnBackButtonClicked += ShowMainMenu;
+		highScoresMenu.OnBackButtonClicked += ShowMainMenu;
 
 		optionsMenu.gameObject.SetActive(false);
 		highScoresMenu.gameObject.SetActive(false);
@@ -46,9 +46,9 @@ public class UiController : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		mainMenu.onHighScoresButtonClicked -= ShowHighScoreMenu;
-		mainMenu.onOptionsButtonClicked -= ShowOptionsMenu;
-		optionsMenu.onBackButtonClicked -= ShowMainMenu;
-		highScoresMenu.onBackButtonClicked -= ShowMainMenu;
+		mainMenu.OnHighScoresButtonClicked -= ShowHighScoreMenu;
+		mainMenu.OnOptionsButtonClicked -= ShowOptionsMenu;
+		optionsMenu.OnBackButtonClicked -= ShowMainMenu;
+		highScoresMenu.OnBackButtonClicked -= ShowMainMenu;
 	}
 }

@@ -16,7 +16,7 @@ public class ScoreManager : MonoBehaviour
 	private void Start()
 	{
 		gameManager = GameManager.Instance;
-		gameManager.onPointScored += ScorePoints;
+		gameManager.OnPointScored += ScorePoints;
 		textMeshPro = GetComponent<TextMeshProUGUI>();
 		score = 0;
 
@@ -31,6 +31,6 @@ public class ScoreManager : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		gameManager.onPointScored -= ScorePoints;
+		gameManager.OnPointScored -= ScorePoints;
 	}
 }

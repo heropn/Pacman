@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HighScoresMenu : MonoBehaviour
 {
-	public event Action<GameObject> onBackButtonClicked;
+	public event Action<GameObject> OnBackButtonClicked;
 
 	[SerializeField]
 	private Button backButton;
@@ -18,6 +18,6 @@ public class HighScoresMenu : MonoBehaviour
 
 	private void BackToMainMenu()
 	{
-		onBackButtonClicked?.Invoke(gameObject);
+		OnBackButtonClicked?.Invoke(gameObject);
 	}
 }

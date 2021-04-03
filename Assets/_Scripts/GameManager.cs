@@ -8,8 +8,7 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 
-	public event Action<int> onPointScored;
-	public event Action onGameLost;
+	public event Action<int> OnPointScored;
 
 	[SerializeField]
 	private float enemiesVulnarableTime = 5.0f;
@@ -32,6 +31,9 @@ public class GameManager : MonoBehaviour
 	[Space(10)]
 	[SerializeField]
 	private Player player;
+
+	[SerializeField]
+	private FinalObjective finalObjective;
 
 	[Space(10)]
 	[SerializeField]
@@ -86,7 +88,8 @@ public class GameManager : MonoBehaviour
 			portal.onPortalEnter += TeleportPlayer;
 		}
 
-		player.onPlayerCollidedWithEnemy += EnemyEnter;
+		player.OnPlayerCollidedWithEnemy += EnemyEnter;
+		finalObjective.OnPlayerEnter += WinGame;
 
 		StartCoroutine(StartGame());
 	}
@@ -120,12 +123,11 @@ public class GameManager : MonoBehaviour
 		if (enemy.currentState == Enemy.State.Normal)
 		{
 			Debug.Log("GAME LOST");
-			onGameLost?.Invoke();
 		}
 		else
 		{
 			currentEnemies.Remove(enemy);
-			onPointScored?.Invoke(pointsFromEnemy);
+			OnPointScored?.Invoke(pointsFromEnemy);
 			enemy.Destroy();
 			SpawnEnemy();
 		}
@@ -133,6 +135,14 @@ public class GameManager : MonoBehaviour
 
 	private void WinGame()
 	{
+		player.enabled = false;
+		finalObjective.enabled = false;
+		
+		foreach (var enemy in currentEnemies)
+		{
+			enemy.enabled = false;
+		}
+
 		Debug.Log("GAME WON");
 	}
 
@@ -148,7 +158,7 @@ public class GameManager : MonoBehaviour
 		powerUps.Remove(powerUp);
 		Destroy(powerUp.gameObject);
 
-		onPointScored?.Invoke(pointsFromPowerUP);
+		OnPointScored?.Invoke(pointsFromPowerUP);
 
 		StartCoroutine(MakeEnemiesVulnarable());
 	}
@@ -173,11 +183,12 @@ public class GameManager : MonoBehaviour
 		gold.onGoldCollected -= ScorePoint;
 		golds.Remove(gold);
 		Destroy(gold.gameObject);
-		onPointScored?.Invoke(pointsFromGold);
+		OnPointScored?.Invoke(pointsFromGold);
 
 		if (golds.Count == 0)
 		{
-			WinGame();
+			finalObjective.gameObject.SetActive(true);
+			Level.Instance.SetActiveFinalGate(false);
 		}
 	}
 
@@ -198,6 +209,7 @@ public class GameManager : MonoBehaviour
 			powerUp.onPowerUpPicked -= TakePowerUP;
 		}
 
-		player.onPlayerCollidedWithEnemy -= EnemyEnter;
+		player.OnPlayerCollidedWithEnemy -= EnemyEnter;
+		finalObjective.OnPlayerEnter -= WinGame;
 	}
 }

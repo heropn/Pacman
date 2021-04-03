@@ -88,7 +88,16 @@ public class Enemy : MonoBehaviour
 
 	public void Destroy()
 	{
+		//StartCoroutine(PlayDestroyAnimation());
 		Destroy(gameObject);
-		//Do some other animation and stuff
+	}
+
+	private IEnumerator PlayDestroyAnimation()
+	{
+		boxCollider.enabled = false;
+		rigidBody.gravityScale = 5.0f;
+		rigidBody.AddForce(Vector2.up * 50.0f,ForceMode2D.Impulse);
+		yield return new WaitForSeconds(3.0f);
+		Destroy(gameObject);
 	}
 }
