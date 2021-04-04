@@ -30,6 +30,7 @@ public class FinalObjective : MonoBehaviour
 		if (collision.GetComponent<PolygonCollider2D>() != null)
 		{
 			direction = new Vector2(direction.x * -1, 0);
+			transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
 		}
 		else if (collision.GetComponent<Player>() != null)
 		{

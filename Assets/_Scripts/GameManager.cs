@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
 	public event Action<int> OnPointScored;
 
+	public event Action OnGameWon;
+
 	[SerializeField]
 	private float enemiesVulnarableTime = 5.0f;
 
@@ -143,7 +145,12 @@ public class GameManager : MonoBehaviour
 			enemy.enabled = false;
 		}
 
-		Debug.Log("GAME WON");
+		var spriteRenderer = Level.Instance.GetComponentInChildren<SpriteRenderer>();
+		var color = spriteRenderer.color;
+		color.a = 0.3f;
+		spriteRenderer.color = color;
+
+		OnGameWon?.Invoke();
 	}
 
 	private void TeleportPlayer(Portal destinationPortal)
