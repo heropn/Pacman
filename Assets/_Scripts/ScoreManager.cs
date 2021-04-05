@@ -5,13 +5,19 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-	public static int score { get; private set; }
+	public static ScoreManager Instance;
+	public int score { get; private set; }
 
 	private GameManager gameManager;
 
 	private TextMeshProUGUI textMeshPro;
 
 	private const string scoreString = "Score: ";
+
+	private void Awake()
+	{
+		Instance = this;
+	}
 
 	private void Start()
 	{

@@ -42,6 +42,7 @@ public class UiController : MonoBehaviour
 	{
 		mainMenu.gameObject.SetActive(false);
 		highScoresMenu.gameObject.SetActive(true);
+		highScoresMenu.UpdateAndShowHighScores();
 	}
 
 	private void OnDestroy()

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class WinScreen : MonoBehaviour
+public class LoseScreen : MonoBehaviour
 {
 	[SerializeField]
 	private TextMeshProUGUI score;
@@ -16,7 +16,7 @@ public class WinScreen : MonoBehaviour
 
 	private void Start()
 	{
-		GameManager.Instance.OnGameWon += ShowScreen;
+		GameManager.Instance.OnGameLost += ShowScreen;
 		score.gameObject.SetActive(false);
 		title.gameObject.SetActive(false);
 		backToMenuButton.gameObject.SetActive(false);
@@ -36,13 +36,10 @@ public class WinScreen : MonoBehaviour
 		title.gameObject.SetActive(true);
 
 		score.text = "SCORE: " + ScoreManager.Instance.score.ToString();
-
-		string name = PlayerPrefs.GetString("name");
-		GetComponent<HighScoresMenu>().AddHighScore(ScoreManager.Instance.score, name);
 	}
 
 	private void OnDestroy()
 	{
-		GameManager.Instance.OnGameWon -= ShowScreen;
+		GameManager.Instance.OnGameLost -= ShowScreen;
 	}
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,12 +23,31 @@ public class MainMenu : MonoBehaviour
 	[SerializeField]
 	private Button exitButton;
 
+	[SerializeField]
+	private TMP_InputField inputField;
+
 	private void Start()
 	{
 		playButton.onClick.AddListener(PlayGame);
 		exitButton.onClick.AddListener(QuitGame);
 		optionsButton.onClick.AddListener(ShowOptionsMenu);
 		highscoreButton.onClick.AddListener(ShowHighScoreMenu);
+		inputField.onValueChanged.AddListener(UpdatePlayerName);
+
+		if (PlayerPrefs.HasKey("name"))
+		{
+			string name = PlayerPrefs.GetString("name");
+			inputField.text = name;
+		}
+		else
+		{
+			PlayerPrefs.SetString("name", "-");
+		}
+	}
+
+	private void UpdatePlayerName(string name)
+	{
+		PlayerPrefs.SetString("name", name);
 	}
 
 	private void ShowOptionsMenu()

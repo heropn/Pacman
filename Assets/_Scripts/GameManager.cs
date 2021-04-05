@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 	public event Action<int> OnPointScored;
 
 	public event Action OnGameWon;
+	public event Action OnGameLost;
 
 	[SerializeField]
 	private float enemiesVulnarableTime = 5.0f;
@@ -124,7 +125,8 @@ public class GameManager : MonoBehaviour
 	{
 		if (enemy.currentState == Enemy.State.Normal)
 		{
-			Debug.Log("GAME LOST");
+			StopLevel();
+			OnGameLost?.Invoke();
 		}
 		else
 		{
@@ -135,11 +137,11 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void WinGame()
+	private void StopLevel()
 	{
 		player.enabled = false;
 		finalObjective.enabled = false;
-		
+
 		foreach (var enemy in currentEnemies)
 		{
 			enemy.enabled = false;
@@ -149,7 +151,11 @@ public class GameManager : MonoBehaviour
 		var color = spriteRenderer.color;
 		color.a = 0.3f;
 		spriteRenderer.color = color;
+	}
 
+	private void WinGame()
+	{
+		StopLevel();
 		OnGameWon?.Invoke();
 	}
 
