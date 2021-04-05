@@ -147,6 +147,27 @@ public class GameManager : MonoBehaviour
 			enemy.enabled = false;
 		}
 
+		foreach (var portal in portals)
+		{
+			var colorP = portal.GetComponent<SpriteRenderer>().color;
+			colorP.a = 0.3f;
+			portal.GetComponent<SpriteRenderer>().color = colorP;
+		}
+
+		foreach (var enemy in currentEnemies)
+		{
+			var colorP = enemy.GetComponent<SpriteRenderer>().color;
+			colorP.a = 0.3f;
+			enemy.GetComponent<SpriteRenderer>().color = colorP;
+		}
+
+		foreach (var powerup in powerUps)
+		{
+			var colorP = powerup.GetComponent<SpriteRenderer>().color;
+			colorP.a = 0.3f;
+			powerup.GetComponent<SpriteRenderer>().color = colorP;
+		}
+
 		var spriteRenderer = Level.Instance.GetComponentInChildren<SpriteRenderer>();
 		var color = spriteRenderer.color;
 		color.a = 0.3f;
