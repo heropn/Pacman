@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
 
 	private List<Portal> portals;
 
+	private bool isGameEnded = false;
+
 	private void Awake()
 	{
 		Instance = this;
@@ -107,9 +109,12 @@ public class GameManager : MonoBehaviour
 
 	private void SpawnEnemy()
 	{
-		int index = UnityEngine.Random.Range(0, enemiesPrefabs.Count);
-		var enemy = Instantiate(enemiesPrefabs[index], enemyHolderTransform);
-		currentEnemies.Add(enemy.GetComponent<Enemy>());
+		if (!isGameEnded)
+		{
+			int index = UnityEngine.Random.Range(0, enemiesPrefabs.Count);
+			var enemy = Instantiate(enemiesPrefabs[index], enemyHolderTransform);
+			currentEnemies.Add(enemy.GetComponent<Enemy>());
+		}
 	}
 
 	private IEnumerator SpawnEnemies()
@@ -126,6 +131,7 @@ public class GameManager : MonoBehaviour
 		if (enemy.currentState == Enemy.State.Normal)
 		{
 			StopLevel();
+			AudioManager.Instance.PlayClip(AudioManager.Audio.Name.DeathSound);
 			OnGameLost?.Invoke();
 		}
 		else
@@ -139,6 +145,7 @@ public class GameManager : MonoBehaviour
 
 	private void StopLevel()
 	{
+		isGameEnded = true;
 		player.enabled = false;
 		finalObjective.enabled = false;
 
@@ -177,6 +184,7 @@ public class GameManager : MonoBehaviour
 	private void WinGame()
 	{
 		StopLevel();
+		AudioManager.Instance.PlayClip(AudioManager.Audio.Name.WinSound);
 		OnGameWon?.Invoke();
 	}
 
