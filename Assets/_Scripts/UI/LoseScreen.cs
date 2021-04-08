@@ -36,6 +36,9 @@ public class LoseScreen : MonoBehaviour
 		title.gameObject.SetActive(true);
 
 		score.text = "SCORE: " + ScoreManager.Instance.score.ToString();
+
+		string name = PlayerPrefs.GetString("name");
+		GetComponent<HighScoresMenu>().AddHighScore(ScoreManager.Instance.score, name);
 	}
 
 	private void OnDestroy()

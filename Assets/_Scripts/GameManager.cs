@@ -212,11 +212,41 @@ public class GameManager : MonoBehaviour
 			enemy.ChangeState(Enemy.State.Vulnerable);
 		}
 
-		yield return new WaitForSeconds(enemiesVulnarableTime);
+		yield return new WaitForSeconds(enemiesVulnarableTime - 1.5f);
+
+		StartCoroutine(FadeVulerableEnemies());
+
+		yield return new WaitForSeconds(1.5f);
 
 		foreach (var enemy in currentEnemies)
 		{
 			enemy.ChangeState(Enemy.State.Normal);
+		}
+	}
+
+	private IEnumerator FadeVulerableEnemies()
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			foreach (var enemy in currentEnemies)
+			{
+				var sr = enemy.GetComponent<SpriteRenderer>();
+				var color = sr.color;
+				color.a = 0.7f;
+				sr.color = color;
+			}
+
+			yield return new WaitForSeconds(0.25f);
+
+			foreach (var enemy in currentEnemies)
+			{
+				var sr = enemy.GetComponent<SpriteRenderer>();
+				var color = sr.color;
+				color.a = 1.0f;
+				sr.color = color;
+			}
+
+			yield return new WaitForSeconds(0.25f);
 		}
 	}
 
