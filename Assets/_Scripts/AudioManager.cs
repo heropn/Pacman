@@ -39,24 +39,13 @@ public class AudioManager : MonoBehaviour
 
 		var audio = audios.Find(a => a.name == Audio.Name.Music);
 		audio.source.Play();
-		audio.source.volume *= 0.7f;
+		audio.source.volume *= 0.5f;
 	}
 
 	public void PlayClip(Audio.Name name)
 	{
 		var audio = audios.Find(a => a.name == name);
 		audio.source.Play();
-	}
-
-	public void ChangeVolume(float volume)
-	{
-		foreach (var a in audios)
-		{
-			a.source.volume = volume;
-		}
-
-		var audio = audios.Find(a => a.name == Audio.Name.Music);
-		audio.source.volume *= 0.7f;
 	}
 
 	[System.Serializable]
@@ -66,7 +55,10 @@ public class AudioManager : MonoBehaviour
 		{
 			Music,
 			DeathSound,
-			WinSound
+			WinSound,
+			Coin,
+			PowerUp,
+			Portal
 		}
 
 		public Name name;

@@ -10382,7 +10382,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &872405507
 MonoBehaviour:
@@ -28305,6 +28305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1989109598}
   - component: {fileID: 1989109599}
+  - component: {fileID: 1989109600}
   m_Layer: 5
   m_Name: LoseScreen
   m_TagString: Untagged
@@ -28349,6 +28350,21 @@ MonoBehaviour:
   score: {fileID: 82298583}
   title: {fileID: 1915594027}
   backToMenuButton: {fileID: 238463632}
+--- !u!114 &1989109600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989109597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b649cc6d387642a4a8e436f823b843f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backButton: {fileID: 0}
+  highScoreHolder: {fileID: 0}
+  highscorePrefab: {fileID: 0}
 --- !u!1001 &1990720464
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -56,4 +56,16 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 0f26e39a392b87344b690ae3374b5054, type: 3}
     isLoop: 0
     source: {fileID: 0}
+  - name: 3
+    clip: {fileID: 8300000, guid: 4716d15566bd32b4abba2326eaeb32ec, type: 3}
+    isLoop: 0
+    source: {fileID: 0}
+  - name: 4
+    clip: {fileID: 8300000, guid: e1311ac4ae727bc42823b13aecfb96cd, type: 3}
+    isLoop: 0
+    source: {fileID: 0}
+  - name: 5
+    clip: {fileID: 8300000, guid: cedb16d808ecd2d4085edba6d3a2b53a, type: 3}
+    isLoop: 0
+    source: {fileID: 0}
   audioMixer: {fileID: 24300002, guid: 352af1290e614ab42bc0bbe1dd394ca4, type: 2}

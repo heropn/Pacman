@@ -190,12 +190,14 @@ public class GameManager : MonoBehaviour
 
 	private void TeleportPlayer(Portal destinationPortal)
 	{
+		AudioManager.Instance.PlayClip(AudioManager.Audio.Name.Portal);
 		StartCoroutine(destinationPortal.DisableCollider(1.0f));
 		player.TeleportToLocation(destinationPortal.transform.position);
 	}
 
 	private void TakePowerUP(PowerUP powerUp)
 	{
+		AudioManager.Instance.PlayClip(AudioManager.Audio.Name.PowerUp);
 		powerUp.onPowerUpPicked -= TakePowerUP;
 		powerUps.Remove(powerUp);
 		Destroy(powerUp.gameObject);
@@ -230,20 +232,26 @@ public class GameManager : MonoBehaviour
 		{
 			foreach (var enemy in currentEnemies)
 			{
-				var sr = enemy.GetComponent<SpriteRenderer>();
-				var color = sr.color;
-				color.a = 0.7f;
-				sr.color = color;
+				if (enemy.currentState == Enemy.State.Vulnerable)
+				{
+					var sr = enemy.GetComponent<SpriteRenderer>();
+					var color = sr.color;
+					color.a = 0.7f;
+					sr.color = color;
+				}
 			}
 
 			yield return new WaitForSeconds(0.25f);
 
 			foreach (var enemy in currentEnemies)
 			{
-				var sr = enemy.GetComponent<SpriteRenderer>();
-				var color = sr.color;
-				color.a = 1.0f;
-				sr.color = color;
+				if (enemy.currentState == Enemy.State.Vulnerable)
+				{
+					var sr = enemy.GetComponent<SpriteRenderer>();
+					var color = sr.color;
+					color.a = 1.0f;
+					sr.color = color;
+				}
 			}
 
 			yield return new WaitForSeconds(0.25f);
@@ -252,6 +260,7 @@ public class GameManager : MonoBehaviour
 
 	private void ScorePoint(Gold gold)
 	{
+		AudioManager.Instance.PlayClip(AudioManager.Audio.Name.Coin);
 		gold.onGoldCollected -= ScorePoint;
 		golds.Remove(gold);
 		Destroy(gold.gameObject);
